@@ -36,8 +36,15 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['required', 'string', 'max:255'],
             'occupation' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        } else {
+            $avatarPath = 'images/avatar-default.png';
+        }
 
         $user = User::create([
             'identity_number' => $request->identity_number,
@@ -45,6 +52,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'occupation' => $request->occupation,
+            'avatar' => $avatarPath,
             'password' => Hash::make($request->password),
         ]);
 

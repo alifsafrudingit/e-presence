@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\ProfileController;
@@ -24,8 +25,8 @@ use Illuminate\Support\Facades\Route;
  
 Route::middleware(['guest'])->group(function() {
     Route::get('/', function () {
- return view('auth.login');
-});
+        return view('auth.login');
+    });
 });
 
 
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     Route::get('/presence', [PresenceController::class, 'create'])->name('presence.create');
+    Route::post('presence/store', [PresenceController::class, 'store'])->name('presence.store');
+    
+    Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
 require __DIR__.'/auth.php';

@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained();
+            $table->string('identity_number');
             $table->date('tgl_presensi');
             $table->time('time_in');
-            $table->time('time_out');
+            $table->time('time_out')->nullable();
             $table->string('foto_in');
-            $table->string('foto_out');
-            $table->text('location');
+            $table->string('foto_out')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
