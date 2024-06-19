@@ -64,8 +64,8 @@ class PresenceController extends Controller
         
         $check = $get_data->count();
         
-        if ($radius > 10) {
-            echo 'error|Maaf anda berada diluar radius|Pastikan radius kurang dari 10 km|not_radius';
+        if ($radius > 20) {
+            echo 'error|Maaf anda berada diluar radius kantor|Jarak anda adalah ' . $radius . ' meter dari kantor|not_radius';
         } else {
             if ($check > 0) {  
                 $check_now = $get_data->first();

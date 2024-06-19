@@ -68,6 +68,9 @@
     <audio id="notification_fail_time">
         <source src="{{ asset('assets/audio/notification_fail_time.mp3') }}" type="audio/mpeg">
     </audio>
+    <audio id="notification_out_of_radius">
+        <source src="{{ asset('assets/audio/notification_out_of_radius.mp3') }}" type="audio/mpeg">
+    </audio>
     <audio id="notification_out">
         <source src="{{ asset('assets/audio/notification_out.mp3') }}" type="audio/mpeg">
     </audio>
@@ -100,7 +103,7 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
             const marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-            const circle = L.circle([-7.6989763892401, 110.57406623698708], {
+            const circle = L.circle([-7.6990536, 110.5740341], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
@@ -145,6 +148,8 @@
                     } else {
                         if (status[3] == 'not_time') {
                             notification_fail_time.play()
+                        } else if (status[3] == 'not_radius') {
+                            notification_out_of_radius.play()
                         }
                         Swal.fire({
                             title: status[1],
