@@ -41,8 +41,8 @@ class PresenceController extends Controller
         $tgl_presensi = date('Y-m-d');
         $time = date('H:i:s');
         
-        $latitude_office = -7.6989763892401;
-        $longitude_office = 110.57406623698708;
+        $latitude_office = -7.6990533;
+        $longitude_office = 110.5740319;
         
         $location = $request->lokasi;
         $user_location = explode(',', $location);

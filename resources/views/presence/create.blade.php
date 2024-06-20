@@ -103,7 +103,7 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
             const marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-            const circle = L.circle([-7.6990536, 110.5740341], {
+            const circle = L.circle([-7.6990533, 110.5740319], {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
