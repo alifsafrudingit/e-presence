@@ -108,36 +108,41 @@
         </div>
 
         <div id="presencerecape">
+          <h4>Rekap Presensi {{ $month_name[$month_now * 1] . " " . $year_now }}</h4>
             <div class="row">
                 <div class="col-3">
                     <div class="card">
-                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                        <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
+                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_presence }}</span>
                             <ion-icon name="accessibility-outline" style="font-size: 1.6rem; color: #724BCC"></ion-icon><br>
-                            <span style="font-size: 0.8rem; font-weight: 500">Hadir</span>
+                            <span style="font-size: 0.7rem; font-weight: 500">Hadir</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card">
-                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                        <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
+                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">8</span>
                             <ion-icon name="newspaper-outline" style="font-size: 1.6rem; color: #FF7909"></ion-icon><br>
-                            <span style="font-size: 0.8rem; font-weight: 500">Ijin</span>
+                            <span style="font-size: 0.7rem; font-weight: 500">Ijin</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card">
-                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                        <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
+                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">2</span>
                             <ion-icon name="medkit-outline" style="font-size: 1.6rem; color: #2DA94F"></ion-icon><br>
-                            <span style="font-size: 0.8rem; font-weight: 500">Sakit</span>
+                            <span style="font-size: 0.7rem; font-weight: 500">Sakit</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card">
-                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                        <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
+                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_late }}</span>
                             <ion-icon name="alarm-outline" style="font-size: 1.6rem; color: #EA4335"></ion-icon><br>
-                            <span style="font-size: 0.8rem; font-weight: 500">Terlambat</span>
+                            <span style="font-size: 0.7rem; font-weight: 500">Terlambat</span>
                         </div>
                     </div>
                 </div>
@@ -183,7 +188,7 @@
                                             <span class="badge badge-dark">{{ $presence->time_out }}</span>
                                         @else
                                             <span class="badge badge-light" style="color:#FF0000">
-                                                00:00:00
+                                                --:--:--
                                             </span>
                                         @endif
                                     </div>

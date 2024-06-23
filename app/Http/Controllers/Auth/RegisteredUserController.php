@@ -15,51 +15,51 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
+  /**
+   * Display the registration view.
+   */
+  public function create(): View
+  {
+    return view('auth.register');
+  }
+
+  /**
+   * Handle an incoming registration request.
+   *
+   * @throws \Illuminate\Validation\ValidationException
+   */
+  public function store(Request $request): RedirectResponse
+  {
+    $request->validate([
+      'identity_number' => ['required', 'string', 'max:255', 'unique:' . User::class],
+      'name' => ['required', 'string', 'max:255'],
+      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+      'phone' => ['required', 'string', 'max:255'],
+      'occupation' => ['required', 'string', 'max:255'],
+      'avatar' => ['nullable'],
+      'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    if ($request->hasFile('avatar')) {
+      $avatarPath = $request->file('avatar')->store('avatars', 'public');
+    } else {
+      $avatarPath = 'images/avatar-default.png';
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'identity_number' => ['required', 'string', 'max:255', 'unique:'.User::class],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'string', 'max:255'],
-            'occupation' => ['required', 'string', 'max:255'],
-            'avatar' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-        
-        if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        } else {
-            $avatarPath = 'images/avatar-default.png';
-        }
+    $user = User::create([
+      'identity_number' => $request->identity_number,
+      'name' => $request->name,
+      'email' => $request->email,
+      'phone' => $request->phone,
+      'occupation' => $request->occupation,
+      'avatar' => $avatarPath,
+      'password' => Hash::make($request->password),
+    ]);
 
-        $user = User::create([
-            'identity_number' => $request->identity_number,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'occupation' => $request->occupation,
-            'avatar' => $avatarPath,
-            'password' => Hash::make($request->password),
-        ]);
+    event(new Registered($user));
 
-        event(new Registered($user));
+    Auth::login($user);
 
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
-    }
+    return redirect(RouteServiceProvider::HOME);
+  }
 }

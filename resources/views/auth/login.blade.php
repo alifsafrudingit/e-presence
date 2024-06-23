@@ -1,4 +1,7 @@
 <x-guest-layout>
+    <div class="flex items-center justify-center">
+      <img src="{{ asset('assets/img/sample/photo/auth-ilustration.jpeg') }}" alt="auth-image">
+    </div>
     <div class="flex items-center justify-center font-bold">
         <p class="text-lg font-bold">Log In</p>
     </div>
