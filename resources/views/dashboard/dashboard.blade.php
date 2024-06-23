@@ -69,11 +69,16 @@
                         <div class="card-body">
                             <div class="presencecontent">
                                 <div class="iconpresence">
-                                    <ion-icon name="camera"></ion-icon>
+                                    @if ($presence && $presence->foto_in != null)
+                                        <img src="{{ Storage::url('/uploads/absensi/' . $presence->foto_in) }}"
+                                            class="imaged w48">
+                                    @else
+                                        <ion-icon name="camera"></ion-icon>
+                                    @endif
                                 </div>
                                 <div class="presencedetail">
                                     <h4 class="presencetitle">Masuk</h4>
-                                    <span>{{ $presence->time_in != null ? $presence->time_in : 'Belum Pres..' }}</span>
+                                    <span>{{ $presence && $presence->time_in != null ? $presence->time_in : 'Belum Pres..' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -84,11 +89,16 @@
                         <div class="card-body">
                             <div class="presencecontent">
                                 <div class="iconpresence">
-                                    <ion-icon name="camera"></ion-icon>
+                                    @if ($presence && $presence->foto_out != null)
+                                        <img src="{{ Storage::url('/uploads/absensi/' . $presence->foto_out) }}"
+                                            class="imaged w48">
+                                    @else
+                                        <ion-icon name="camera"></ion-icon>
+                                    @endif
                                 </div>
                                 <div class="presencedetail">
                                     <h4 class="presencetitle">Pulang</h4>
-                                    <span>{{ $presence->time_out != null ? $presence->time_out : 'Belum Pres..' }}</span>
+                                    <span>{{ $presence && $presence->time_out != null ? $presence->time_out : 'Belum Pres..' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -96,74 +106,44 @@
                 </div>
             </div>
         </div>
-        {{-- 
-        <div class="rekappresence">
-            <div id="chartdiv"></div>
+
+        <div id="presencerecape">
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="presencecontent">
-                                <div class="iconpresence primary">
-                                    <ion-icon name="log-in"></ion-icon>
-                                </div>
-                                <div class="presencedetail">
-                                    <h4 class="rekappresencetitle">Hadir</h4>
-                                    <span class="rekappresencedetail">0 Hari</span>
-                                </div>
-                            </div>
+                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                            <ion-icon name="accessibility-outline" style="font-size: 1.6rem; color: #724BCC"></ion-icon><br>
+                            <span style="font-size: 0.8rem; font-weight: 500">Hadir</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="presencecontent">
-                                <div class="iconpresence green">
-                                    <ion-icon name="document-text"></ion-icon>
-                                </div>
-                                <div class="presencedetail">
-                                    <h4 class="rekappresencetitle">Izin</h4>
-                                    <span class="rekappresencedetail">0 Hari</span>
-                                </div>
-                            </div>
+                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                            <ion-icon name="newspaper-outline" style="font-size: 1.6rem; color: #FF7909"></ion-icon><br>
+                            <span style="font-size: 0.8rem; font-weight: 500">Ijin</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mt-1">
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="presencecontent">
-                                <div class="iconpresence warning">
-                                    <ion-icon name="sad"></ion-icon>
-                                </div>
-                                <div class="presencedetail">
-                                    <h4 class="rekappresencetitle">Sakit</h4>
-                                    <span class="rekappresencedetail">0 Hari</span>
-                                </div>
-                            </div>
+                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                            <ion-icon name="medkit-outline" style="font-size: 1.6rem; color: #2DA94F"></ion-icon><br>
+                            <span style="font-size: 0.8rem; font-weight: 500">Sakit</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card">
-                        <div class="card-body">
-                            <div class="presencecontent">
-                                <div class="iconpresence danger">
-                                    <ion-icon name="alarm"></ion-icon>
-                                </div>
-                                <div class="presencedetail">
-                                    <h4 class="rekappresencetitle">Terlambat</h4>
-                                    <span class="rekappresencedetail">0 Hari</span>
-                                </div>
-                            </div>
+                        <div class="card-body text-center" style="padding: 16px 12px !important; line-height: 1rem">
+                            <ion-icon name="alarm-outline" style="font-size: 1.6rem; color: #EA4335"></ion-icon><br>
+                            <span style="font-size: 0.8rem; font-weight: 500">Terlambat</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
+
         <div class="presencetab mt-2">
             <div class="tab-pane fade show active" id="pilled" role="tabpanel">
                 <ul class="nav nav-tabs style1" role="tablist">
@@ -182,10 +162,10 @@
             <div class="tab-content mt-2" style="margin-bottom:100px;">
                 <div class="tab-pane fade show active" id="home" role="tabpanel">
                     <ul class="listview image-listview">
-                        @foreach ($presences_month as $presence_month)
+                        @foreach ($presence_history as $presence)
                             <li>
                                 <div class="item">
-                                    @if ($presence_month->time_in && $presence_month->time_out != null)
+                                    @if ($presence->time_in && $presence->time_out != null)
                                         <div class="icon-box bg-primary">
                                             <ion-icon name="checkmark-done-outline" role="img" class="md hydrated"
                                                 aria-label="checkmark done outline"></ion-icon>
@@ -197,10 +177,10 @@
                                         </div>
                                     @endif
                                     <div class="in">
-                                        <div>{{ date('d M Y', strtotime($presence_month->tgl_presensi)) }}</div>
-                                        <span class="badge badge-success">{{ $presence_month->time_in }}</span>
-                                        @if ($presence_month->time_out != null)
-                                            <span class="badge badge-dark">{{ $presence_month->time_out }}</span>
+                                        <div>{{ date('d M Y', strtotime($presence->tgl_presensi)) }}</div>
+                                        <span class="badge badge-success">{{ $presence->time_in }}</span>
+                                        @if ($presence->time_out != null)
+                                            <span class="badge badge-dark">{{ $presence->time_out }}</span>
                                         @else
                                             <span class="badge badge-light" style="color:#FF0000">
                                                 00:00:00

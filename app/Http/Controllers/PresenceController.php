@@ -52,17 +52,23 @@ class PresenceController extends Controller
         $distance = $this->distance($latitude_office, $longitude_office, $latitude_user, $longitude_user);
         $radius = round($distance['meters']);
 
+          
+        $get_data =  Presence::where('tgl_presensi',$tgl_presensi)->where('identity_number', $identity_number);
+        
+        $check = $get_data->count();
+        if ($check > 0) {
+            $desc = 'out';
+        } else {
+            $desc = 'in';
+        }
+        
         $image = $request->image;
         $folderPath = 'public/uploads/absensi/';
-        $formatName = rand(1000,9999) . "-" . $tgl_presensi;
+        $formatName = rand(1000,9999) . "-" . $tgl_presensi . "-" . $desc;
         $image_parts = explode(';base64', $image);
         $image_base64 = base64_decode($image_parts[1]);
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
-        
-        $get_data =  Presence::where('tgl_presensi',$tgl_presensi)->where('identity_number', $identity_number);
-        
-        $check = $get_data->count();
         
         if ($radius > 20) {
             echo 'error|Maaf anda berada diluar radius kantor|Jarak anda adalah ' . $radius . ' meter dari kantor|not_radius';
@@ -71,11 +77,11 @@ class PresenceController extends Controller
                 $check_now = $get_data->first();
                 $starttimestamp = strtotime($check_now->time_in);
                 $endtimestamp = strtotime($time);
-                $difference = abs($endtimestamp - $starttimestamp)/3600;
+                // $difference = abs($endtimestamp - $starttimestamp)/3600;
                 
-                if ($difference < 7) {
-                    echo 'error|Belum Saatnya Absen Pulang|Pastikan waktunya|not_time';
-                } else {
+                // if ($difference < 7) {
+                //     echo 'error|Belum Saatnya Absen Pulang|Pastikan waktunya|not_time';
+                // } else {
                     $data_out = [
                         'time_out' => $time,
                         'foto_out' => $fileName,
@@ -90,7 +96,7 @@ class PresenceController extends Controller
                     } else {
                         echo 'error|Gagal Absen Pulang|Silahkan hubungi tim IT|check_out';
                     }
-                }
+                // }
             } else {      
                 $data_in = [
                     'identity_number' => $identity_number,
