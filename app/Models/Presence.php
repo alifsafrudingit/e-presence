@@ -17,6 +17,7 @@ class Presence extends Model
       'time_out',
       'foto_in',
       'foto_out',
+      'user_id',
       'location_in',
       'location_out',  
     ];

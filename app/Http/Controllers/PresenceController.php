@@ -103,6 +103,7 @@ class PresenceController extends Controller
                     'tgl_presensi' => $tgl_presensi,
                     'time_in' => $time,
                     'foto_in' => $fileName,
+                    'user_id' => Auth::user()->id,
                     'location_in' => $location,
                 ];
                 

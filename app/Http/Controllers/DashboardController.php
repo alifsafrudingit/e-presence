@@ -37,6 +37,10 @@ class DashboardController extends Controller
 
     $month_name = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
+    $leaderboards = Presence::with('user')->where('tgl_presensi', $date_now)->orderBy('time_in', 'ASC')->get();
+    
+    // dd($employee_presences_order);
+    
     return view('dashboard.dashboard', compact(
       'presence',
       'user',
@@ -45,7 +49,8 @@ class DashboardController extends Controller
       'month_name',
       'month_now',
       'year_now',
-      'presence_recape'
+      'presence_recape',
+      'leaderboards'
     ));
   }
 }

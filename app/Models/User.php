@@ -50,6 +50,6 @@ class User extends Authenticatable
     
     public function presences()
     {
-        return $this->hasMany(Presence::class);
+        return $this->hasOne(Presence::class);
     }
 }

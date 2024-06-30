@@ -4,11 +4,16 @@
     <div class="section" id="user-section">
         <div id="user-detail">
             <div class="avatar">
-                <img src="assets/img/sample/avatar/man.png" alt="avatar" class="imaged w64 rounded">
+                @if (!empty(Auth::user()->avatar))
+                    <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="avatar" class="imaged w64 rounded">
+                @else
+                    <img src="{{ Storage::url('avatars/default-avatar.png') }}" alt="avatar" class="imaged w64 rounded">
+                @endif
             </div>
             <div id="user-info">
                 <h2 id="user-name">{{ $user->name }}</h2>
                 <span id="user-role">{{ $user->occupation }}</span>
+                <a href="logout">Logout</a>
             </div>
         </div>
     </div>
@@ -19,7 +24,7 @@
                 <div class="list-menu">
                     <div class="item-menu text-center">
                         <div class="menu-icon">
-                            <a href="" class="green" style="font-size: 40px;">
+                            <a href="{{ route('profile.updateprofile', $user) }}" class="green" style="font-size: 40px;">
                                 <ion-icon name="person-sharp"></ion-icon>
                             </a>
                         </div>
@@ -29,7 +34,7 @@
                     </div>
                     <div class="item-menu text-center">
                         <div class="menu-icon">
-                            <a href="" class="danger" style="font-size: 40px;">
+                            <a href="" class="primary" style="font-size: 40px;">
                                 <ion-icon name="calendar-number"></ion-icon>
                             </a>
                         </div>
@@ -39,7 +44,7 @@
                     </div>
                     <div class="item-menu text-center">
                         <div class="menu-icon">
-                            <a href="" class="warning" style="font-size: 40px;">
+                            <a href="" class="orange" style="font-size: 40px;">
                                 <ion-icon name="document-text"></ion-icon>
                             </a>
                         </div>
@@ -49,7 +54,7 @@
                     </div>
                     <div class="item-menu text-center">
                         <div class="menu-icon">
-                            <a href="" class="orange" style="font-size: 40px;">
+                            <a href="" class="danger" style="font-size: 40px;">
                                 <ion-icon name="location"></ion-icon>
                             </a>
                         </div>
@@ -57,6 +62,18 @@
                             Lokasi
                         </div>
                     </div>
+                    @role('owner')
+                        <div class="item-menu text-center">
+                            <div class="menu-icon">
+                                <a href="#" class="info" style="font-size: 40px;">
+                                    <ion-icon name="person-add-sharp"></ion-icon>
+                                </a>
+                            </div>
+                            <div class="menu-name">
+                                Register
+                            </div>
+                        </div>
+                    @endrole
                 </div>
             </div>
         </div>
@@ -70,7 +87,8 @@
                             <div class="presencecontent">
                                 <div class="iconpresence">
                                     @if ($presence && $presence->foto_in != null)
-                                        <img src="{{ Storage::url('/uploads/absensi/' . $presence->foto_in) }}"
+                                        <img id="myImg"
+                                            src="{{ Storage::url('/uploads/absensi/' . $presence->foto_in) }}"
                                             class="imaged w48">
                                     @else
                                         <ion-icon name="camera"></ion-icon>
@@ -108,12 +126,13 @@
         </div>
 
         <div id="presencerecape">
-          <h4>Rekap Presensi {{ $month_name[$month_now * 1] . " " . $year_now }}</h4>
+            <h4>Rekap Presensi {{ $month_name[$month_now * 1] . ' ' . $year_now }}</h4>
             <div class="row">
                 <div class="col-3">
                     <div class="card">
                         <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
-                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_presence }}</span>
+                            <span class="badge bg-danger"
+                                style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_presence }}</span>
                             <ion-icon name="accessibility-outline" style="font-size: 1.6rem; color: #724BCC"></ion-icon><br>
                             <span style="font-size: 0.7rem; font-weight: 500">Hadir</span>
                         </div>
@@ -122,7 +141,8 @@
                 <div class="col-3">
                     <div class="card">
                         <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
-                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">8</span>
+                            <span class="badge bg-danger"
+                                style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">0</span>
                             <ion-icon name="newspaper-outline" style="font-size: 1.6rem; color: #FF7909"></ion-icon><br>
                             <span style="font-size: 0.7rem; font-weight: 500">Ijin</span>
                         </div>
@@ -131,7 +151,8 @@
                 <div class="col-3">
                     <div class="card">
                         <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
-                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">2</span>
+                            <span class="badge bg-danger"
+                                style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">0</span>
                             <ion-icon name="medkit-outline" style="font-size: 1.6rem; color: #2DA94F"></ion-icon><br>
                             <span style="font-size: 0.7rem; font-weight: 500">Sakit</span>
                         </div>
@@ -140,7 +161,8 @@
                 <div class="col-3">
                     <div class="card">
                         <div class="card-body text-center" style="padding: 12px 12px !important; line-height: 1rem">
-                            <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_late }}</span>
+                            <span class="badge bg-danger"
+                                style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999">{{ $presence_recape->total_late }}</span>
                             <ion-icon name="alarm-outline" style="font-size: 1.6rem; color: #EA4335"></ion-icon><br>
                             <span style="font-size: 0.7rem; font-weight: 500">Terlambat</span>
                         </div>
@@ -183,7 +205,12 @@
                                     @endif
                                     <div class="in">
                                         <div>{{ date('d M Y', strtotime($presence->tgl_presensi)) }}</div>
-                                        <span class="badge badge-success">{{ $presence->time_in }}</span>
+                                        @if ($presence->time_in > '09:00')
+                                            <span class="badge badge-danger">{{ $presence->time_in }}</span>
+                                        @else
+                                            <span class="badge badge-success">{{ $presence->time_in }}</span>
+                                        @endif
+
                                         @if ($presence->time_out != null)
                                             <span class="badge badge-dark">{{ $presence->time_out }}</span>
                                         @else
@@ -199,19 +226,27 @@
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel">
                     <ul class="listview image-listview">
-                        @foreach ($users as $user)
+                        @foreach ($leaderboards as $leaderboard)
                             <li>
                                 <div class="item">
-                                    <img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="image">
+                                    @if (Auth::user()->avatar != null)
+                                        <img src="{{ Storage::url('avatars/' . $leaderboard->avatar) }}" alt="image"
+                                            class="image">
+                                    @else
+                                        <img src="{{ Storage::url('avatars/default-avatar.png') }}" alt="image"
+                                            class="image">
+                                    @endif
+
                                     <div class="in">
                                         <div>
-                                            <button type="button" class="btn btn-light" data-container="body"
-                                                data-toggle="popover" data-placement="top"
-                                                data-content="Phone : {{ $user->phone }},  Email : {{ $user->email }}">
-                                                {{ $user->name }}
-                                            </button>
+                                            <b>{{ $leaderboard->user->name }}</b><br>
+                                            <span class="text-muted">{{ $leaderboard->user->occupation }}</span>
                                         </div>
-                                        <span class="text-muted">{{ $user->occupation }}</span>
+                                        @if ($leaderboard->time_in > '09:00')
+                                            <span style="color: #FF0000">{{ $leaderboard->time_in }}</span>
+                                        @else
+                                            <span>{{ $leaderboard->time_in }}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </li>
@@ -222,12 +257,36 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
 @endsection
 
 @push('myscript')
     <script>
-        $(function() {
-            $('[data-toggle="popover"]').popover()
-        })
+        const modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        const img = document.getElementById("myImg");
+        const modalImg = document.getElementById("img01");
+        const captionText = document.getElementById("caption");
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
     </script>
 @endpush

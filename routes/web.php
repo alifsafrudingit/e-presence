@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\ProfileController;
@@ -35,11 +36,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/editprofile', [ProfileController::class, 'editprofile'])->name('profile.editprofile');
+    Route::put('/updateprofile', [ProfileController::class, 'updateprofile'])->name('profile.updateprofile');
     
-    Route::get('/presence', [PresenceController::class, 'create'])->name('presence.create');
+    Route::get('/presence', [PresenceController::class, 'create'])->name('presence.create')->middleware('role:owner|hrd|employee');
     Route::post('presence/store', [PresenceController::class, 'store'])->name('presence.store');
     
+    Route::get('/user_register', [RegisteredUserController::class, 'create'])->name('user_register');
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
 });
 
 require __DIR__.'/auth.php';
