@@ -136,6 +136,21 @@ class PresenceController extends Controller
         return compact('meters');
     }
 
+    
+    public function history()
+    {   
+        $month_name = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];   
+        
+        return view('presence.history', compact('month_name'));
+    }
+    
+    public function getHistory(Request $request)
+    {
+        $month = $request->month;
+        $year =  $request->year;
+        
+        echo $month . ' & ' . $year;
+    }
     /**
      * Display the specified resource.
      */

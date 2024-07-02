@@ -39,10 +39,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/editprofile', [ProfileController::class, 'editprofile'])->name('profile.editprofile');
     Route::put('/updateprofile', [ProfileController::class, 'updateprofile'])->name('profile.updateprofile');
     
+    // Prensence
     Route::get('/presence', [PresenceController::class, 'create'])->name('presence.create')->middleware('role:owner|hrd|employee');
     Route::post('presence/store', [PresenceController::class, 'store'])->name('presence.store');
     
-    Route::get('/user_register', [RegisteredUserController::class, 'create'])->name('user_register');
+    // History
+    Route::get('/history', [PresenceController::class, 'history'])->name('presence.history');
+    Route::post('/gethistory', [PresenceController::class, 'getHistory'])->name('presence.get_history');
+    
+    // Edit Profile
+    Route::get('/userregister', [RegisteredUserController::class, 'create'])->name('user_register');
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
 });

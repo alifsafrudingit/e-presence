@@ -181,7 +181,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#profile" role="tab">
-                            Karyawan
+                            Leaderboard
                         </a>
                     </li>
                 </ul>
@@ -229,8 +229,8 @@
                         @foreach ($leaderboards as $leaderboard)
                             <li>
                                 <div class="item">
-                                    @if (Auth::user()->avatar != null)
-                                        <img src="{{ Storage::url('avatars/' . $leaderboard->avatar) }}" alt="image"
+                                    @if (!empty($leaderboard->avatar))
+                                        <img src="{{ Storage::url($leaderboard->avatar) }}" alt="image"
                                             class="image">
                                     @else
                                         <img src="{{ Storage::url('avatars/default-avatar.png') }}" alt="image"
@@ -239,8 +239,8 @@
 
                                     <div class="in">
                                         <div>
-                                            <b>{{ $leaderboard->user->name }}</b><br>
-                                            <span class="text-muted">{{ $leaderboard->user->occupation }}</span>
+                                            <b>{{ $leaderboard->name }}</b><br>
+                                            <span class="text-muted">{{ $leaderboard->occupation }}</span>
                                         </div>
                                         @if ($leaderboard->time_in > '09:00')
                                             <span style="color: #FF0000">{{ $leaderboard->time_in }}</span>

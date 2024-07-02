@@ -37,10 +37,8 @@ class DashboardController extends Controller
 
     $month_name = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-    $leaderboards = Presence::with('user')->where('tgl_presensi', $date_now)->orderBy('time_in', 'ASC')->get();
-    
-    // dd($employee_presences_order);
-    
+    $leaderboards = User::join('presences', 'users.id', '=', 'presences.user_id')->where('tgl_presensi', $date_now)->orderBy('time_in', 'asc')->get();
+    // dd($leaderboards);
     return view('dashboard.dashboard', compact(
       'presence',
       'user',
