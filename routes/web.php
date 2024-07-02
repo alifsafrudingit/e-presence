@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/userregister', [RegisteredUserController::class, 'create'])->name('user_register');
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
+    // Permission Not Come Work
+    Route::get('/permission', [PresenceController::class, 'permission'])->name('presence.permission');
+    
 });
 
 require __DIR__.'/auth.php';

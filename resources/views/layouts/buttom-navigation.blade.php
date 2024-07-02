@@ -6,7 +6,7 @@
              <strong>Home</strong>
          </div>
      </a>
-     <a href="#" class="item">
+     <a href="{{ route('presence.permission') }}" class="item">
          <div class="col">
              <ion-icon name="calendar-outline" role="img" class="md hydrated"
                  aria-label="calendar outline"></ion-icon>

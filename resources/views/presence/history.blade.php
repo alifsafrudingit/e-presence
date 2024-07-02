@@ -58,6 +58,10 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col" id="showHistory"></div>
+    </div>
 @endsection
 
 @push('myscript')
@@ -75,8 +79,8 @@
                         year: year,
                     },
                     cache: false,
-                    success: function(respond) {
-                        console.log(respond)
+                    success: function(data) {
+                        $('#showHistory').html(data)
                     }
                 })
             })

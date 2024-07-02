@@ -149,7 +149,21 @@ class PresenceController extends Controller
         $month = $request->month;
         $year =  $request->year;
         
-        echo $month . ' & ' . $year;
+        $identity_number = Auth::user()->identity_number;
+        
+        $histories = Presence::whereRaw('MONTH(tgl_presensi)="' . $month .'"')
+        ->whereRaw('YEAR(tgl_presensi)="' . $year . '"')
+        ->where('identity_number', $identity_number)
+        ->orderBy('tgl_presensi')
+        ->get();
+        
+        return view('presence.get_history', compact('histories'));
+
+    }
+    
+    public function permission()
+    {
+        return view('presence.permission');
     }
     /**
      * Display the specified resource.
