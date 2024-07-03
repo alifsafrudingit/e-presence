@@ -154,7 +154,7 @@ class PresenceController extends Controller
         $histories = Presence::whereRaw('MONTH(tgl_presensi)="' . $month .'"')
         ->whereRaw('YEAR(tgl_presensi)="' . $year . '"')
         ->where('identity_number', $identity_number)
-        ->orderBy('tgl_presensi')
+        ->orderBy('tgl_presensi', 'desc')
         ->get();
         
         return view('presence.get_history', compact('histories'));

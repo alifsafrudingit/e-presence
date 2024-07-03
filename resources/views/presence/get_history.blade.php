@@ -7,11 +7,12 @@
                     <div class="col-6">
                         <b>{{ date('l, d-m-Y', strtotime($history->tgl_presensi)) }}</b><br>
                         @if ($history->time_in > '09:00')
-                            <span class="text-muted">Terlambat</span>
+                            <span class="text-muted">Terlambat</span><br>
                         @endif
                         @if ($history->time_out == null)
-                            <span class="text-muted">& belum absen pulang</span>
+                            <span class="text-muted">Belum absen pulang</span>
                         @endif
+
                     </div>
                     <div class="col-3 text-center">
                         <img id="myImg" src="{{ Storage::url('/uploads/absensi/' . $history->foto_in) }}"
