@@ -157,13 +157,19 @@ class PresenceController extends Controller
         ->orderBy('tgl_presensi', 'desc')
         ->get();
         
-        return view('presence.get_history', compact('histories'));
+        return view('presence.get-history', compact('histories'));
 
     }
     
     public function permission()
     {
         return view('presence.permission');
+    }
+    
+    public function permitApplication()
+    {
+        $user = Auth::user();
+        return view('presence.permit-application', compact('user'));
     }
     /**
      * Display the specified resource.

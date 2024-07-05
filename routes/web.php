@@ -53,6 +53,9 @@ Route::middleware('auth')->group(function () {
     
     // Permission Not Come Work
     Route::get('/permission', [PresenceController::class, 'permission'])->name('presence.permission');
+    Route::get('/permitapplication', [PresenceController::class, 'permitApplication'])->name('presence.permit_application');
+    Route::post('permitapplication/store', [PresenceController::class, 'storePermitApplication'])->name('presence.store_permit');
+     
     
 });
 
